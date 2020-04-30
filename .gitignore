@@ -1,0 +1,13 @@
+# Don’t commit the following directories created by pub.
+*.zip
+*.apk
+.idea
+.vscode
+.env.json
+version.json
+dist
+node_modules
+unpackage
+tools
+template
+*.cmd*.exe
