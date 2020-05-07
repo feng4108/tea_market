@@ -4,11 +4,19 @@
 			<view class=" top-search icon" :class="'cuIcon-search'"></view>
 			<view class="top-search text">新品上市春茶</view>
 		</view>
-		<scroll-view scroll-x class="bg-white nav" scroll-with-animation :scroll-left="scrollLeft">
-			<view class="cu-item" :class="index==TabCur?'cur':''" v-for="(item,index) in bids" :key="index" @tap="tabSelect" :data-id="item.id">
-				{{item.name}}
+		
+		<view class="flex">
+			<scroll-view scroll-x class="bg-white nav" scroll-with-animation :scroll-left="scrollLeft">
+				<view class="cu-item" :class="index==TabCur?'cur':''" v-for="(item,index) in bids" :key="index" @tap="tabSelect" :data-id="item.id">
+					{{item.name}}
+				</view>
+			</scroll-view>
+			<view class="flex flex-direction">
+				<view :class="cuIcon-more"></view>
+				<view>分类</view>
 			</view>
-		</scroll-view>
+		</view>
+		
 		<swiper class="screen-swiper" :class="dotStyle?'square-dot':'round-dot'" :indicator-dots="true" :circular="true"
 				:autoplay="true" interval="5000" duration="500" indicator-color="#aaaaaa" indicator-active-color="#ffffff">
 			<swiper-item v-for="(item,index) in swiperList" :key="index" :class="cardCur==index?'cur':''">
@@ -22,10 +30,10 @@
             </view>
         </view>
 		<view class="cu-list grid" :class="['col-2' ,gridBorder?'':'no-border']">
-		    <view class="flex align-center justify-start" v-for="(item,index) in subBids" :key="index" v-if="index<2*2">
+		    <view class="flex align-center justify-start" v-for="(item,index) in hotBids" :key="index" v-if="index<2*2">
 				<view class="flex flex-direction justify-start align-start">
 					<text class="hot-class-name">{{item.name}}</text>
-					<view class="flex align-center justify-start">
+					<view class="flex align-bottom justify-start">
 						<view class="price-symbol">￥</view>
 						<view class="price-value">500</view>
 					</view>
@@ -35,7 +43,7 @@
 						3日内有成交
 					</view>
 				</view>
-				<image class="hot-class-cover" :src="item.url" mode="aspectFill"></image>
+				<image class="hot-class-cover margin-sm" :src="item.url" mode="aspectFill"></image>
 		    </view>
 		</view>
         <view class="cu-list grid" :class="['col-2' ,gridBorder?'':'no-border']">
@@ -70,6 +78,7 @@ export default {
 		this.bids = mock['bids'];
 		this.swiperList = mock['banner'];
 		this.subBids = mock.subBids;
+		this.hotBids = mock.hotBids;
 		this.hotGoods = mock.hotGoods;
 	},
 	data() {
@@ -77,7 +86,8 @@ export default {
 			cardCur: 0,
 			bids:[],
 			swiperList: [],//轮播图
-            subBids:[],
+            subBids:[],//分类
+            hotBids:[],///热门分类
             hotGoods:[],
 			dotStyle: true,
 			direction: '',
@@ -140,7 +150,6 @@ export default {
 		font-size: 32rpx;
 		font-weight: normal;
 		font-stretch: normal;
-		line-height: 58rpx;
 		letter-spacing: 0rpx;
 		color: #333333;
 	}
@@ -164,7 +173,7 @@ export default {
           }
     .pay-count {
         font-family: PingFang-SC-Bold;
-        font-size: 20rpx;
+        font-size: 22rpx;
         font-weight: normal;
         font-stretch: normal;
         line-height: 36rpx;
@@ -189,7 +198,7 @@ export default {
     }
     .sell-state {
 		display: flex;
-        width: 150rpx;
+        width: 110rpx;
         height: 36rpx;
         background-color: #e60012;
         border-radius: 6rpx;
@@ -197,7 +206,7 @@ export default {
 		padding-top: 3rpx;
 		padding-bottom: 3rpx;
         font-family: PingFang-SC-Bold;
-        font-size: 12rpx;
+        font-size: 18rpx;
         font-weight: normal;
         font-stretch: normal;
         letter-spacing: 0rpx;
