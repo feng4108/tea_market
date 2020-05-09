@@ -1445,7 +1445,6 @@ button.cuIcon.lg {
 }
 
 .cu-list.grid {
-	background-color: #ffffff;
 	text-align: center
 }
 
@@ -1942,6 +1941,7 @@ button.cuIcon.lg {
  ==================== */
 
 .nav {
+	/*文本不会换行，文本会在在同一行上继续，直到遇到 <br> 标签为止。*/
 	white-space: nowrap;
 }
 
@@ -1952,7 +1952,7 @@ button.cuIcon.lg {
 .nav .cu-item {
 	height: 90rpx;
 	display: inline-block;
-	margin: 0 10rpx;
+	margin: 0 8rpx;
 
 	font-family: PingFang-SC-Bold;
 	font-size: 28rpx;
@@ -2587,7 +2587,7 @@ swiper.round-dot .uni-swiper-dot.uni-swiper-dot-active {
 
 .screen-swiper {
 	min-height: 220rpx;
-	margin-top: 47rpx;
+	margin-top-top: 47rpx;
 }
 
 .screen-swiper image,
@@ -2991,7 +2991,7 @@ scroll-view.cu-steps .cu-item {
 }
 
 .grid.col-2>view {
-	width: 50%;
+	width: 48%;
 }
 
 .grid.col-3>view {
