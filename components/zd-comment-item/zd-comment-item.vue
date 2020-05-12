@@ -1,17 +1,12 @@
 <template>
-	<view class="bg-white margin-top-sm justify-center align-center hot-goods padding-sm" @tap="onClick">
-		<view class="flex justify-center align-center">
-			<view class="price-symbol">￥</view>
-			<view class="price-value">500</view>
-			<view class="pay-count">208人付款</view>
+	<view class="flex bg-white justify-center align-center hot-goods padding-sm " @tap="onClick">
+		<image  class="avatar" mode="aspectFill" :src="item.url"></image>
+		<view class="flex flex-direction justify-center align-center">
+			<view class="price-symbol">{{item.name}}</view>
+			<view class="price-value">{{item.content}}</view>
+			<view class="pay-count">{{item.date}}</view>
 		</view>
-		<view class="sell-state">3日内有成交</view>
-		<view class="flex align-center justify-center">
-			<image class="ware-cover margin-top-sm" :src="item.url" mode="aspectFill" v-if="item.type == 'image'"></image>
-		</view>
-
-		<view class="ware-name">2020年新春热卖大红袍2.0金罐10罐装 新春热卖大红袍</view>
-		<image  class="bar-code" mode="aspectFill" src="/static/img/barcode.png"></image>
+		<view class="sell-state" :class="item.appreciate?'cuIcon-appreciatefill':'cuIcon-appreciate'" @tap="appreciate">{{item.count}}</view>
 	</view>
 </template>
 
@@ -23,7 +18,7 @@
 			return {
 			};
 		},
-		name: 'zd-goods-item',
+		name: 'zd-comment-item',
 		props: {
 			item: {
 				type: Object,
@@ -33,6 +28,14 @@
 		methods: {
 			onClick(){
 				this.$emit("onClick", this.item);
+			},
+			appreciate(){
+				if(this.item.appreciate){
+					this.item.count++;
+				}else {
+					this.item.count--;
+				}
+				this.item.appreciate = !this.item.appreciate;
 			}
 		}
 	}
@@ -94,10 +97,9 @@
 		text-align: center;
 		color: #ffffff;
 	}
-	.bar-code{
-		width: 285rpx;
-		height: 60rpx;
-		border-radius: 4rpx;
-		border: solid 2rpx #eeeff3;
+	.avatar{
+		width: 66rpx;
+		height: 66rpx;
+		border-radius: 6rpx;
 	}
 </style>

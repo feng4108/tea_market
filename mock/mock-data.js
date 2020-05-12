@@ -164,4 +164,58 @@ export default {
 		type: 'image',
 		url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big99008.jpg'
 	}],
+	comments:[
+		{
+			id:"c1",
+			url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big84000.jpg',
+			count: 120,
+			name: '张***3',
+			appreciate:true,
+			content:"茶叶品质不错，包装完整，物流速度快，过节送礼很有面子。茶叶品质不错，包装完整，物流速度快，过节送礼很有面子。",
+			list:[
+				{
+					id:"c1-1",
+					url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big84000.jpg',
+					count: 120,
+					name: 'ww***3',
+					appreciate:true,
+					content:"2300的货量算不算非常多了，价格在什么位置算是稳定？",
+				},
+				{
+					id:"c1-2",
+					url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big84000.jpg',
+					count: 120,
+					name: 'ww***3',
+					appreciate:true,
+					content:"666。",
+				},
+			]
+		},
+		{
+			id:"c2",
+			url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big84000.jpg',
+			count: 120,
+			name: '张***3',
+			appreciate:true,
+			content:"鉴定为正品，手边还有代购240入手的，味道也相同。",
+			list:[
+				{
+					id:"c2-1",
+					url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big84000.jpg',
+					count: 120,
+					name: 'ww***3',
+					appreciate:true,
+					content:"2300的货量算不算非常多了，价格在什么位置算是稳定？",
+				},
+				{
+					id:"c2-2",
+					url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big84000.jpg',
+					count: 120,
+					name: 'ww***3',
+					appreciate:true,
+					content:"666。",
+				},
+			]
+		},
+	]
 }

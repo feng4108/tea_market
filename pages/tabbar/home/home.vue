@@ -32,9 +32,16 @@
 		</swiper>
 		<!--		子分类-->
 		<view class="cu-list grid bg-white" :class="['col-' + gridCol, gridBorder ? '' : 'no-border']">
-			<view class="flex flex-direction align-center justify-center" v-for="(item, index) in subBids" :key="index" v-if="index < gridCol * 2">
-				<image class="sub-class-icon" :src="item.url" mode="aspectFill"></image>
-				<view class="sub-class-text">{{ item.name }}</view>
+			<view  v-for="(item, index) in subBids" :key="index" v-if="index < gridCol * 2">
+				<view v-if="index<(gridCol*2-1)" class="flex flex-direction align-center justify-center">
+					<image class="sub-class-icon" :src="item.url" mode="aspectFill"></image>
+					<view class="sub-class-text">{{ item.name }}</view>
+				</view>
+				<view v-else class="flex flex-direction align-center justify-center">
+					<image class="sub-class-icon" src="/static/img/ic_more.png" mode="aspectFill"></image>
+					<view class="sub-class-text">全部</view>
+				</view>
+
 			</view>
 		</view>
 		<!--热门板块-->
@@ -67,7 +74,9 @@
 		</view>
 		<!--		推荐商品-->
 		<view class="grid align-center justify-between padding" :class="['col-2', gridBorder ? '' : 'no-border']">
-			<view v-for="(item, index) in hotGoods" :key="index" v-if="index < 2 * 3"><zd-goods-item :item="item"></zd-goods-item></view>
+			<view v-for="(item, index) in hotGoods" :key="index" v-if="index < 2 * 3">
+				<zd-goods-item :item="item" v-on:onClick="onclick"></zd-goods-item>
+			</view>
 		</view>
 	</view>
 </template>
@@ -115,17 +124,22 @@ export default {
 			let index = parseInt(e.target.dataset.current || e.currentTarget.dataset.current);
 			this.switchTab(index);
 		},
-		search(res) {
-			let value = String(res.value).trim();
-			if (value == '') return;
-			//
-		},
 		switchTab(index) {
 			if (this.tabIndex === index) {
 				return;
 			}
 			this.tabIndex = index;
 			this.scrollInto = this.bids[index].id;
+		},
+		search(res) {
+			let value = String(res.value).trim();
+			if (value == '') return;
+			//
+		},
+		onclick(e){
+			uni.navigateTo({
+				url: "/pages/goods/goods-detail"
+			});
 		}
 	}
 };
@@ -250,7 +264,7 @@ page {
 }
 .sell-state {
 	height: 36rpx;
-	width: 120rpx;
+	width: 140rpx;
 	background-color: #e60012;
 	border-radius: 6rpx;
 	margin-top: 10rpx;
