@@ -171,6 +171,7 @@ export default {
 			count: 120,
 			name: '张***3',
 			appreciate:true,
+			date:"1小时前",
 			content:"茶叶品质不错，包装完整，物流速度快，过节送礼很有面子。茶叶品质不错，包装完整，物流速度快，过节送礼很有面子。",
 			list:[
 				{
@@ -179,6 +180,7 @@ export default {
 					count: 120,
 					name: 'ww***3',
 					appreciate:true,
+					date:"1小时前",
 					content:"2300的货量算不算非常多了，价格在什么位置算是稳定？",
 				},
 				{
@@ -187,6 +189,7 @@ export default {
 					count: 120,
 					name: 'ww***3',
 					appreciate:true,
+					date:"1小时前",
 					content:"666。",
 				},
 			]
@@ -197,6 +200,7 @@ export default {
 			count: 120,
 			name: '张***3',
 			appreciate:true,
+			date:"1小时前",
 			content:"鉴定为正品，手边还有代购240入手的，味道也相同。",
 			list:[
 				{
@@ -205,6 +209,7 @@ export default {
 					count: 120,
 					name: 'ww***3',
 					appreciate:true,
+					date:"1小时前",
 					content:"2300的货量算不算非常多了，价格在什么位置算是稳定？",
 				},
 				{
@@ -213,6 +218,7 @@ export default {
 					count: 120,
 					name: 'ww***3',
 					appreciate:true,
+					date:"1小时前",
 					content:"666。",
 				},
 			]
