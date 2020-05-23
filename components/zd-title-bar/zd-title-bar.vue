@@ -1,21 +1,16 @@
 <template>
-	<!-- <view> -->
-		<view class="cu-custom" :style="[{height:CustomBar + 'px'}]">
-			<view class="cu-bar fixed" :style="style" :class="[bgImage!=''?'none-bg text-white bg-img':'',bgColor]">
-				<view v-if="isBack" class="action" @tap="BackPage">
-					<text class="zdIcon-back"></text>
-					<text v-if="backText">{{backText}}</text>
-				</view>
-				<view v-if="title" class="cu-content" :style="[{top:StatusBar + 'px'}]">
-					<text >{{title}}</text>
-				</view>
-				<view v-else class="flex-sub">
-					<slot></slot>
-				</view>
-				<text v-for="item in buttons" :key="item.ID" :class="item.ICON" class="padding-right-xs" @tap="onBtnClick(item)">{{item.TEXT}}</text>
-			</view>
+	<view class="flex justify-center align-center bg-white text-black" 
+	style="position: fixed;z-index: 1024;top: 0;" 
+	:style="barStyle"
+	>
+		<view class="iconfont iconicon_left flex align-center margin-left-sm" style="height: 80rpx; width: 80rpx;font-size: 40rpx;"
+		@tap="BackPage"></view>
+		<view class="flex flex-wrap justify-center align-center text-center margin-left-smtext-black text-bold"
+		style="font-size: 36rpx;">
+			{{title}}
 		</view>
-	<!-- </view> -->
+		<view class="iconfont iconfenxiang margin-left-sm flex align-center  margin-right-sm "  style="height: 80rpx; width: 80rpx;font-size: 60rpx;" @tap="onBtnClick"></view>
+	</view>
 </template>
 
 <script>
@@ -24,22 +19,18 @@
 	export default {
 		data() {
 			return {
-				StatusBar: this.StatusBar,
-				CustomBar: this.CustomBar
+				statusBarHeight: this.StatusBar,
 			};
 		},
 		name: 'zd-title-bar',
 		computed: {
-			style() {
-				var StatusBar= this.StatusBar;
-				var CustomBar= this.CustomBar;
-				var bgImage = this.bgImage;
-				var style = `height:${CustomBar}px;padding-top:${StatusBar}px;`;
-				if (this.bgImage) {
-					style = `${style}background-image:url(${bgImage});`;
-				}
-				return style
-			}
+			barStyle(){
+				let height = parseInt(this.statusBarHeight)+165;
+				let padTop = parseInt(this.statusBarHeight)+45;
+				var style = `height:${height}rpx;padding-top:${padTop}rpx;`;
+				console.log('状态栏样式'+style);
+				return style;
+			},
 		},
 		props: {
 			bgColor: {
@@ -70,24 +61,20 @@
 			}
 		},
 		methods: {
+			
 			BackPage() {
-				if (getCurrentPages().length < 2) {
-				    if ('undefined' !== typeof __wxConfig) {
-						let url = '/' + __wxConfig.pages[0]
-						return this.$routerX.redirectTo({url})
-					}
-					
-					uni.switchTab({
-						url: Vue.$auth.homeRoute
-					});
-					return
-				}
 				uni.navigateBack({
 					delta: 1
 				});
 			},
 			onBtnClick(item){
 				this.$emit("btnclick", item);
+			},
+			getHeight(){
+				return parseInt(this.statusBarHeight)+165;
+			},
+			getPaddingHeight(){
+				return parseInt(this.statusBarHeight)+45;
 			}
 		}
 	}

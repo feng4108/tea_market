@@ -1,13 +1,17 @@
 <template>
 	<view class="bg-white">
+		<zd-title-bar :title="goodsName" v-on:btnclick="onShare"></zd-title-bar>
+		<view :style="'height: ' + (statusBarHeight + 165) + 'rpx'"></view>
+		<scroll-view id="tab-bar" class="flex scroll-h bg-white align-center text-center" :scroll-x="true" :show-scrollbar="false" :scroll-into-view="scrollInto">
+			<view v-for="(tab, index) in tabs" :key="tab.id" class="uni-tab-item" :id="tab.id" :data-current="index" @tap="tabSelect">
+				<text class="uni-tab-item-title" :class="tabIndex == index ? 'uni-tab-item-title-active' : ''">{{ tab.name }}</text>
+			</view>
+		</scroll-view>
 		<view class="flex flex-direction">
-			<scroll-view id="tab-bar" class="flex scroll-h bg-white align-center text-center" :scroll-x="true" :show-scrollbar="false" :scroll-into-view="scrollInto">
-				<view v-for="(tab, index) in tabs" :key="tab.id" class="uni-tab-item" :id="tab.id" :data-current="index" @tap="tabSelect">
-					<text class="uni-tab-item-title" :class="tabIndex == index ? 'uni-tab-item-title-active' : ''">{{ tab.name }}</text>
-				</view>
-			</scroll-view>
+			<view :style="'height: 80rpx'"></view>
 			<!--商品图片轮播-->
 			<swiper
+				id="id-all-detail"
 				class="screen-swiper2  bg-white"
 				:class="dotStyle ? 'square-dot' : 'round-dot'"
 				:indicator-dots="true"
@@ -28,14 +32,34 @@
 				<view class="text-bold text-xl">500</view>
 			</view>
 			<view class="flex justify-center"><view class="view-all align-center" :class="'cuIcon-right'">查看全部报价</view></view>
-			<view class="flex align-center justify-center margin-bottom-sm margin-top-sm">
-				<view class="flex align-center justify-center  want padding-left-lg  padding-right-lg padding-top-xs padding-bottom-xs" @tap="have = !have">
-					<view class="text-lg  text-lg" :class="have ? 'cuIcon-roundcheckfill' : 'cuIcon-roundcheck'"></view>
-					<view class="text-lg">我有</view>
+			<view class="flex align-start justify-center margin-bottom-sm margin-top-sm">
+				<view class="flex flex-direction flex-grow-1  align-center justify-center  buyer-seller-list">
+					<view class="flex align-center justify-center  want padding-top-xs padding-bottom-xs" style="width: 310rpx;" @tap="have = !have">
+						<view style="40rpx" :class="have ? 'iconfont iconchenggong' : 'iconfont iconchenggong1'"></view>
+						<view class="text-lg  margin-lr-sm">我有</view>
+					</view>
+					<view class="buyer-seller-list margin-bottom-sm">
+						<uni-grid :column="4" :showBorder="false">
+							<view class="" v-for="(item, index) in 8" :key="index">
+								<view class="buyer-avatar" style="background-color: #F2F2F2;" v-if="index == 7"><text style="font-size: 24rpx;color: #999999;">13</text></view>
+								<image v-else class="buyer-avatar" src="https://ossweb-img.qq.com/images/lol/web201310/skin/big25011.jpg" mode=""></image>
+							</view>
+						</uni-grid>
+					</view>
 				</view>
-				<view class="flex align-center justify-center margin-left-lg  want padding-left-lg  padding-right-lg padding-top-xs padding-bottom-xs" @tap="like = !like">
-					<view class="text-lg " :class="like ? 'cuIcon-likefill' : 'cuIcon-like'"></view>
-					<view class="text-lg">想要</view>
+				<view class="flex flex-direction flex-grow-1  align-center justify-start buyer-seller-list">
+					<view class="flex align-center justify-center want padding-top-xs padding-bottom-xs" style="width: 310rpx;" @tap="like = !like">
+						<view style="40rpx" :class="like ? 'iconfont iconaixin1' : 'iconfont iconaixin'"></view>
+						<view class="text-lg margin-lr-sm">想要</view>
+					</view>
+					<view class="buyer-seller-list  margin-bottom-sm">
+						<uni-grid :column="4" :showBorder="false">
+							<view class="" v-for="(item, index) in 3" :key="index">
+								<view class="buyer-avatar" style="background-color: #F2F2F2;" v-if="index == 7"><text style="font-size: 24rpx;color: #999999;">13</text></view>
+								<image v-else class="buyer-avatar" src="https://ossweb-img.qq.com/images/lol/web201310/skin/big25011.jpg" mode=""></image>
+							</view>
+						</uni-grid>
+					</view>
 				</view>
 			</view>
 			<view class="flex flex-direction platform-service align-start justify-center padding-sm">
@@ -49,33 +73,87 @@
 					<view class="platform-service-item">假一赔三</view>
 				</view>
 			</view>
-			<view class="flex padding-sm bg-white">
+			<view id="id-all-deal" class="flex padding-sm bg-white justify-center">
 				<view class="block-title  flex-grow-1">购买记录(2324)</view>
-				<view class="flex align-center">
-					<view class="filter-condition">全部规格</view>
-					<view :class="'cuIcon-triangledownfill'" :style="'font-size:40rpx'"></view>
+
+				<view style="width: 20%;">
+					<xfl-select
+						:list="transType"
+						:clearable="false"
+						:showItemNum="5"
+						:listShow="false"
+						:isCanInput="false"
+						style_Container="height: 50rpx; font-size: 22rpx;"
+						initValue="全部规格"
+						:selectHideType="'independent'"
+					></xfl-select>
 				</view>
+
 			</view>
 			<view v-for="(item, index) in transRecordList" :key="item.id" class="uni-tab-item bg-white" :id="item.id" :data-current="index" @tap="tabSelect">
 				<view class="flex trans-record-item align-center justify-center">
 					<view class="trans-record-item-content" :style="'width:25%'">{{ item.date }}</view>
 					<view class="flex align-center justify-center" :style="'width:50%'">
-						<view class="trans-record-item-content">{{item.userId}}</view>
-						<view class="trans-record-item-content margin-left-xs">{{item.year}}</view>
+						<view class="trans-record-item-content">{{ item.userId }}</view>
+						<view class="trans-record-item-content margin-left-xs">{{ item.year }}</view>
 						<view class="trans-record-item-type margin-left-xs">{{ item.type }}</view>
 					</view>
 
 					<view class="trans-record-item-content" :style="'width:25%'">￥{{ item.price }}</view>
 				</view>
 			</view>
-			<view class="flex padding-sm bg-white">
+			<view class="flex padding" style="font-size: 24rpx;">
+				<view class="text-black text-bold" style="flex-grow: 1;">
+					查看购买
+				</view>
+				<view class="text-gray cuIcon-right">
+					2863付款/332热门求购
+				</view>
+			</view>
+			<view id="id-all-comments" class="flex padding-sm bg-white">
 				<view class="block-title flex-grow-1">讨论(2324)</view>
-				<view class="bg-add-comment flex align-center justify-center"><view class="text-black text-lg" :class="'cuIcon-add'">添加</view></view>
+				<view class="bg-add-comment flex align-center justify-center" @tap="addComment()"><view class="text-black text-lg" :class="'cuIcon-add'">添加</view></view>
 			</view>
-			<view v-for="(item, index) in discussList" :key="item.id" class="uni-tab-item bg-white" :id="item.id" :data-current="index" @tap="tabSelect">
-				<zd-comment-item :item="item"></zd-comment-item>
+			<view v-for="(item, index) in discussList" :key="item.id" class="uni-tab-item bg-white" :data-current="index" @tap="tabSelect">
+				<view class="flex flex-direction">
+					<zd-comment-item :item="item"></zd-comment-item>
+					<view v-for="(subItem, subIndex) in item.list.slice(0, item.list.length > 3 ? 3 : item.list.length)" :key="subItem.id" class="second-comment-item">
+						<zd-comment-item :item="subItem"></zd-comment-item>
+					</view>
+					<view v-if="item.list.length > 3" class="second-comment-item" style="font-size: 22rpx;color: #999999;">{{ item.list.length }}条更多回复</view>
+				</view>
 			</view>
-			<view :style="'height:130rpx'"></view>
+			<view id="id-all-promotion" class="flex padding-sm bg-white"><view class="block-title flex-grow-1">热门推荐</view></view>
+			<view id="id-all-pics" class="flex padding-sm bg-white"><view class="block-title flex-grow-1">商品图片</view></view>
+			<view style="height:150rpx;"></view>
+			<uni-popup ref="showpopup" type="bottom" @change="change">
+				<view style="width: 750rpx;height: 420rpx;" class="flex flex-direction bg-white padding justify-center">
+					<view class="flex justify-between ">
+						<text class="bg-add-comment flex align-center justify-center bg-white" @click="cancel('popup')">取消</text>
+						<text class="bg-add-comment flex align-center justify-center  bg-white" @click="sendComment">发送评论</text>
+					</view>
+					<textarea
+						class="bg-white margin-top-sm"
+						:auto-height="false"
+						placeholder="请输入评论"
+						style="height: 300rpx;width: 710rpx;padding: 20rpx;border-radius: 10rpx;background-color: #EBEEF5;border-width: 1px;"
+						@input="onInputComment"
+					></textarea>
+				</view>
+			</uni-popup>
+			<!-- 底部分享弹窗 -->
+			<uni-popup ref="showshare" type="bottom" @change="change">
+				<view class="uni-share">
+					<text class="uni-share-title">分享到</text>
+					<view class="uni-share-content">
+						<view v-for="(item, index) in shareList" :key="index" class="uni-share-content-box">
+							<view class="uni-share-content-image"><image :src="item.icon" class="content-image" mode="widthFix" /></view>
+							<text class="uni-share-content-text">{{ item.text }}</text>
+						</view>
+					</view>
+					<text class="uni-share-btn" @click="cancel('share')">取消分享</text>
+				</view>
+			</uni-popup>
 		</view>
 		<!--		底部按钮-->
 		<view class="flex bottom-action bg-white">
@@ -101,15 +179,31 @@
 
 <script>
 import mock from '@/mock/mock-data.js';
-import zdCommentItem from '@/components/zd-comment-item/zd-comment-item.vue'
+
+import zdCommentItem from '@/components/zd-comment-item/zd-comment-item.vue';
+import uniGrid from '@/components/uni-grid/uni-grid.vue';
+import uniGridItem from '@/components/uni-grid-item/uni-grid-item.vue';
+import uniPopup from '@/components/uni-popup/uni-popup.vue';
+import xflSelect from '../../components/xfl-select/xfl-select.vue';
 export default {
-	components:{
-		zdCommentItem
+	components: {
+		zdCommentItem,
+		uniGrid,
+		uniGridItem,
+		uniPopup,
+		xflSelect
 	},
 	data() {
 		return {
-			title: '66666666666',
-			tabs: [{ id: 'detail', name: '商品' }, { id: 'deal', name: '成交' }, { id: 'comment', name: '评论' }, { id: 'recommend', name: '推荐' }, { id: 'pics', name: '照片' }],
+			statusBarHeight: this.StatusBar,
+			goodsName: '特级乌龙茶 高山冻顶乌龙茶拼装茶叶礼盒装 80g 顺丰包邮',
+			tabs: [
+				{ id: 'tab-detail', name: '商品', index: 'id-all-detail' },
+				{ id: 'tab-deal', name: '成交', index: 'id-all-deal' },
+				{ id: 'tab-comments', name: '评论', index: 'id-all-comments' },
+				{ id: 'tab-recommend', name: '推荐', index: 'id-all-promotion' },
+				{ id: 'tab-pics', name: '照片', index: 'id-all-pics' }
+			],
 			scrollInto: '',
 			tabIndex: 0,
 			swiperList: [], //轮播图
@@ -117,6 +211,7 @@ export default {
 			dotStyle: true,
 			like: false, //喜欢
 			have: false, //我有
+			transType: ['全部规格', '预售', '团购', '订单'],
 			transRecordList: [
 				{
 					date: '刚刚',
@@ -147,20 +242,35 @@ export default {
 					year: '2020年'
 				}
 			], //交易记录
-			discussList: [] //讨论列表
+			discussList: [], //讨论列表
+			shareList: [],
+			tempComment: ''
 		};
 	},
 	onLoad() {
 		this.swiperList = mock['banner'];
 		this.discussList = mock['comments'];
+		this.shareList = mock['share'];
 	},
-	onNavigationBarButtonTap(e) {
-		uni.showToast({
-			title: '你点了分享按钮',
-			icon: 'none'
-		});
+	onReady() {
+		this.calcPosition();
 	},
 	methods: {
+		onShare() {
+			uni.showToast({
+				title: '你点了分享按钮',
+				icon: 'none'
+			});
+			this.$nextTick(() => {
+				this.$refs['showshare'].open();
+			});
+		},
+		cancel(type) {
+			this.$refs['show' + type].close();
+		},
+		change(e) {
+			console.log('是否打开:' + e.show);
+		},
 		tabSelect(e) {
 			let index = parseInt(e.target.dataset.current || e.currentTarget.dataset.current);
 			this.switchTab(index);
@@ -170,9 +280,57 @@ export default {
 				return;
 			}
 			this.tabIndex = index;
-			this.scrollInto = this.bids[index].id;
+			this.scrollInto = this.tabs[index].id;
+			uni.pageScrollTo({
+				duration: 0,
+				scrollTop: this.tabs[index].offTop
+			});
 		},
-		buyOrSell(type) {}
+		calcPosition() {
+			let self = this;
+			for (let i = 0; i < this.tabs.length; i++) {
+				uni.createSelectorQuery()
+					.select('#' + this.tabs[i].index)
+					.boundingClientRect(data => {
+						//目标节点
+						console.log('查找的view----', data);
+						let st = data.top - (this.statusBarHeight + 105);
+						self.tabs[i].offTop = st;
+					})
+					.exec();
+			}
+		},
+		buyOrSell(type) {
+			uni.navigateTo({
+				url: './good-sell'
+			});
+		},
+		onInputComment(e) {
+			this.tempComment = e.target.value;
+		},
+		addComment() {
+			this.tempComment = '';
+			this.$nextTick(() => {
+				this.$refs['showpopup'].open();
+			});
+		},
+		sendComment() {
+			if (!this.tempComment) {
+				uni.showToast({ title: '请输入评论', icon: 'none' });
+				return;
+			}
+			this.cancel('popup');
+			this.discussList.unshift({
+				id: 'c--' + new Date().getMilliseconds().toString(),
+				url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big84000.jpg',
+				count: 10,
+				name: '张***3',
+				appreciate: false,
+				date: '刚刚',
+				content: this.tempComment,
+				list: []
+			});
+		}
 	}
 };
 </script>
@@ -183,6 +341,10 @@ export default {
 	height: 80rpx;
 	flex-direction: row;
 	white-space: nowrap;
+	position: fixed;
+	top: var(--status-bar-height) + 80;
+	z-index: 1024;
+	background-color: #ffffff;
 }
 .uni-tab-item {
 	display: inline-block;
@@ -237,7 +399,7 @@ export default {
 
 .platform-service {
 	width: 684rpx;
-	background-color: #cc9756;
+	background-color: #efefef;
 	border-radius: 8rpx;
 	margin-left: 34rpx;
 }
@@ -344,5 +506,25 @@ export default {
 	height: 118rpx;
 	background-color: #fae100;
 	border-radius: 8rpx;
+}
+
+.buyer-seller-list {
+	width: 340rpx;
+}
+.buyer-avatar {
+	width: 60rpx;
+	height: 60rpx;
+	margin: 12rpx 12rpx;
+	border-radius: 8rpx;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.second-comment-item {
+	display: inline-block;
+	flex-wrap: nowrap;
+	padding-left: 80rpx;
 }
 </style>

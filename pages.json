@@ -38,15 +38,13 @@
 	    ,{
             "path" : "pages/goods/goods-detail",
             "style" : {
-				"navigationBarTitleText": "2020年新春热卖大红袍2.0金罐10罐装 新春热卖大红袍",
-				"app-plus": {
-					"titleNView": {
-						"buttons": [{
-							"type": "share"
-						}
-						]
-					}
-				}
+				"navigationStyle":"custom"
+			}
+        }
+		,{
+            "path" : "pages/goods/good-sell",
+            "style" : {
+				"navigationStyle":"custom"
 			}
         }
     ],
@@ -102,4 +100,5 @@
 			}
 		]
 	}
+	
 }

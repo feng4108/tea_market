@@ -1,9 +1,10 @@
 <template>
 	<view class="content">
+		<view class="sticky-bar"></view>
 		<uni-search-bar radius="8" bgColor="#f2f2f2" :placeholder="searchPlaceholder" @confirm="search" cancelText="搜索" @cancel="search" />
 
 		<!--顶部分类-->
-		<view class="flex bg-white">
+		<view class="flex bg-white sticky-box">
 			<scroll-view id="tab-bar" class="scroll-h bg-white margin-left-sm" :scroll-x="true" :show-scrollbar="false" :scroll-into-view="scrollInto">
 				<view v-for="(tab, index) in bids" :key="tab.id" class="uni-tab-item" :id="tab.id" :data-current="index" @tap="tabSelect">
 					<text class="uni-tab-item-title" :class="tabIndex == index ? 'uni-tab-item-title-active' : ''">{{ tab.name }}</text>
@@ -25,6 +26,7 @@
 			duration="500"
 			indicator-color="#aaaaaa"
 			indicator-active-color="#ffffff"
+			 @tap="onclick"
 		>
 			<swiper-item v-for="(item, index) in swiperList" :key="index" :class="cardCur == index ? 'cur' : ''">
 				<image :src="item.url" mode="aspectFill" v-if="item.type == 'image'"></image>
@@ -46,7 +48,7 @@
 		</view>
 		<!--热门板块-->
 		<view class="grid bg-white padding align-center justify-between" :class="['col-2', gridBorder ? '' : 'no-border']">
-			<view class="flex align-start " v-for="(item, index) in hotBids" :key="index" v-if="index < 2 * 2">
+			<view class="flex align-start " v-for="(item, index) in hotBids" :key="index" v-if="index < 2 * 2" @tap="onclick">
 				<view class="flex bg-white padding-bottom">
 					<view class="flex flex-direction justify-start align-start">
 						<view class="hot-class-name margin-bottom-sm">{{ item.name }}</view>
@@ -150,12 +152,27 @@ page {
 	background-color: #f2f2f2;
 	min-height: 100%;
 }
-.navfixed {
-	position: fixed;
-	width: 100%;
+
+.sticky-bar {
+	/* #ifndef APP-PLUS-NVUE */
+	display: flex;
+	position: -webkit-sticky;
+	/* #endif */
+	position: sticky;
 	top: 0;
-	z-index: 1024;
-	background-color: #ffffff;
+	height: var(--status-bar-height);
+	z-index: 99;
+	background-color: #FFFFFF;
+	width: 100%;
+}
+.sticky-box {
+	/* #ifndef APP-PLUS-NVUE */
+	display: flex;
+	position: -webkit-sticky;
+	/* #endif */
+	position: sticky;
+	top: var(--status-bar-height);
+	z-index: 99;
 }
 
 .scroll-h {
@@ -163,6 +180,8 @@ page {
 	height: 80rpx;
 	flex-direction: row;
 	white-space: nowrap;
+	position: sticky;
+	top: 150rpx;
 }
 
 .uni-tab-item {
@@ -264,7 +283,7 @@ page {
 }
 .sell-state {
 	height: 36rpx;
-	width: 140rpx;
+	width: 120rpx;
 	background-color: #e60012;
 	border-radius: 6rpx;
 	margin-top: 10rpx;
