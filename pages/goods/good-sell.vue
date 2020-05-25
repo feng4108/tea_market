@@ -46,6 +46,7 @@
 			</view>
 			
 		</view>
+		<view style="height: 102rpx;"></view>
 		<!-- 底部分享弹窗 -->
 		<uni-popup ref="showshare" type="bottom" @change="shareChange">
 			<view class="uni-share">
@@ -61,8 +62,7 @@
 				<text class="uni-share-btn" @click="cancel('share')">取消分享</text>
 			</view>
 		</uni-popup>
-		<view style="height: 102rpx;"></view>
-		<view class="bg-white flex align-center justify-center" style="position: fixed;bottom: 0rpx;height: 102rpx;z-index: 1024;">
+		<view class="bg-white flex align-center justify-center" style="position: fixed;bottom: 0rpx;height: 102rpx;">
 			<view class="bg-button flex justify-start align-center">
 				<view class="bt-hint">没有合适的价格？</view>
 				<view class="bt-action">+卖出上架</view>
